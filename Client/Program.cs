@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using WebService.Models;
 
 namespace Client
 {
@@ -10,6 +13,44 @@ namespace Client
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Attempt to save transaction to service");
+            CreateNewTransaction();
+            Console.WriteLine("Attempt to retrieve transaction from service");
+            GetTransaction();
+            Console.Read();
+        }
+
+        private static Uri baseAddress = new Uri("http://localhost:51207/");
+        private static Transaction transaction = new Transaction() { Id = 1, CustomerName = "Test", Total = 1000, CompletedOn = new DateTime(2016, 01, 01) };
+
+        public static void CreateNewTransaction()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = baseAddress;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = client.PostAsJsonAsync("api/transactions/", transaction).Result;
+                response.EnsureSuccessStatusCode();
+            }
+        }
+
+        public static void GetTransaction()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = baseAddress;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = client.GetAsync("api/transactions/1").Result;
+
+                response.EnsureSuccessStatusCode();
+
+                Transaction results = response.Content.ReadAsAsync<Transaction>().Result;
+                Console.WriteLine("transaction successfully retrieved results ");
+            }
         }
     }
 }
