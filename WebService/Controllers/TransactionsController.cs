@@ -7,11 +7,11 @@ namespace WebService.Controllers
 {
     public class TransactionsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private ApplicationDbContext _context = new ApplicationDbContext();
 
-        public TransactionsController(ApplicationDbContext context)
+        public TransactionsController()
         {
-            _context = context;
+            
         }
 
         // GET api/values
