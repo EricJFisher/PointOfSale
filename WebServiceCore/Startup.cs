@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,10 @@ namespace WebServiceCore
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddEntityFramework()
+                .AddEntityFrameworkInMemoryDatabase()
+                .AddDbContext<Models.ApplicationDbContext>();
+
             services.AddMvc();
         }
 
