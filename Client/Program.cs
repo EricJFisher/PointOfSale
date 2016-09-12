@@ -12,7 +12,7 @@ namespace Client
             CreateNewTransaction();
             Console.WriteLine("Attempt to retrieve transaction from service");
             GetTransaction();
-            Console.Read();
+            Console.ReadLine();
         }
 
         private static Uri baseAddress = new Uri("http://localhost:5001/");
@@ -28,6 +28,7 @@ namespace Client
 
                 HttpResponseMessage response = client.PostAsJsonAsync("api/transactions/Create", transaction).Result;
                 response.EnsureSuccessStatusCode();
+                Console.WriteLine("Transaction saved successfully");
             }
         }
 
