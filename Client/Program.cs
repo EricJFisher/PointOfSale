@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using WebService.Models;
 
 namespace Client
 {
@@ -20,7 +15,7 @@ namespace Client
             Console.Read();
         }
 
-        private static Uri baseAddress = new Uri("http://localhost:51207/");
+        private static Uri baseAddress = new Uri("http://localhost:5001/");
         private static Transaction transaction = new Transaction() { Id = 1, CustomerName = "Test", Total = 1000, CompletedOn = new DateTime(2016, 01, 01) };
 
         public static void CreateNewTransaction()
@@ -31,7 +26,7 @@ namespace Client
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = client.PostAsJsonAsync("api/transactions/", transaction).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("api/transactions/Create", transaction).Result;
                 response.EnsureSuccessStatusCode();
             }
         }
@@ -44,7 +39,7 @@ namespace Client
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = client.GetAsync("api/transactions/1").Result;
+                HttpResponseMessage response = client.GetAsync("api/transactions/GetTransaction/1").Result;
 
                 response.EnsureSuccessStatusCode();
 

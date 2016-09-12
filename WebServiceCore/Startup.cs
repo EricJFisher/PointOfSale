@@ -42,7 +42,7 @@ namespace WebServiceCore
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "api/{controller}/{action}/{id?}"
+                    template: "api/{controller=Transactions}/{action=GetTransactions}/{id?}"
                 );
             });
         }
